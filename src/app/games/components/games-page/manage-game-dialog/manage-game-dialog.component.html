@@ -1,0 +1,66 @@
+<div mat-dialog-title>
+    <h1 class="d-inline-block mb-0">{{ data ? 'Editar' : 'Crear' }} partido</h1>
+    <mat-icon class="float-end text-muted pointer" mat-dialog-close>close</mat-icon>
+</div>
+<div mat-dialog-content>
+    <form [formGroup]="gameForm" (ngSubmit)="onGameFormSubmit()" ngNativeValidate>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field class="w-100" appearance="legacy">
+                    <mat-label>Ubicación</mat-label>
+                    <input matInput placeholder="Ubicación" formControlName="location" required>
+                    <mat-icon matPrefix class="me-3 align-text-bottom">location_on</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field class="w-100" appearance="legacy">
+                    <mat-label>Nivel de padel</mat-label>
+                    <mat-icon matPrefix class="me-3 align-text-bottom">sports_tennis</mat-icon>
+                    <input matInput placeholder="Nivel" [matAutocomplete]="auto" formControlName="paddleLevel" required>
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of filteredPaddleLevels | async" [value]="option">
+                            {{ option.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field class="w-100" appearance="legacy">
+                    <mat-label>Fecha</mat-label>
+                    <input matInput (click)="datePicker.open()" [matDatepicker]="datePicker" formControlName="date" required>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                    <mat-icon matPrefix class="me-3 align-text-bottom">event</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field class="w-100" appearance="legacy">
+                    <mat-label>Hora</mat-label>
+                    <input matInput type="time" placeholder="Hora" formControlName="time" required>
+                    <mat-icon matPrefix class="me-3 align-text-bottom">event</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field class="w-100" appearance="legacy">
+                    <mat-label>Duración</mat-label>
+                    <input matInput type="number" placeholder="Minutos" formControlName="duration" required>
+                    <mat-icon matPrefix class="me-3 align-text-bottom">schedule</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field class="w-100" appearance="legacy">
+                    <mat-label>Precio</mat-label>
+                    <input matInput type="number" placeholder="De la pista" formControlName="courtPrice" required>
+                    <mat-icon matPrefix class="me-3 align-text-bottom">euro</mat-icon>
+                </mat-form-field>
+            </div>
+            <pre>{{ gameForm.value | json }}</pre>
+        </div>
+        <!-- Footer -->
+        <div class="col-12 mt-2">
+            <button mat-raised-button color="primary" class="me-2" type="submit" cdkFocusInitial>
+                {{ data ? 'Editar' : 'Crear' }}
+            </button>
+            <button mat-button mat-dialog-close>Cancelar</button>
+        </div>
+    </form>
+</div>
